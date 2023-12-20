@@ -1,0 +1,19 @@
+-- MonEQ - Monitoring Environmental on IBM Blue Gene/Q --
+
+MonEQ was designed to work with any MPI based program running on Blue Gene/Q.
+
+To quickly get started, check out the tests folder for some simple examples of how to use the library.
+
+For example, the XSBench benchmark can be run, profiled, and analyzed using the steps below:
+1) Set software environment (~/.soft) to use XL compiler (+mpiwrapper-xl).  Resoft.
+2) Change directory into lib_monitor and lib_analysis folders, make.
+3) Change directory into tests/XSBench.  make MPI=yes.
+4) Submit job to Cobalt.  For example, if you wish to run on 32 nodes with 16 OpenMP threads per MPI rank:
+    qsub -t 10 -n 32 --mode c1 -O xsbench_test XSBench -t 16
+5) When the job finishes running, there will be several new files in that directory which MonEQ created.  At this point you are of course welcome to analyze the files yourself.  However, we also provide an analysis tool which you can use to automatically generate plots.
+6) Assuming you made the analysis tools in the 2nd step run:
+    ../../lib_analysis/moneq_reducer (This will reduce the files output by MonEQ during the run)
+    ../../lib_analysis/moneq_analyzer (This will generate the charts.  If you're on BGQ when running these commands, make sure you have your X forwarding setup correctly...i.e., -X).
+
+
+The above is just scratching the surface of what MonEQ is capable in terms of both monitoring and analysis.  While a more complete documentation is still in the works, the analysis executable's options can be found by invoking the "--help" function.  The configuration options for the monitoring scripts can be inferred easily from the header file powermon_bgq.h.
